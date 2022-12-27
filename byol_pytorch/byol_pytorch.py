@@ -196,7 +196,7 @@ class BYOL(nn.Module):
                 T.GaussianBlur((3, 3), (1.0, 2.0)),
                 p = 0.2
             ),
-            T.RandomResizedCrop((image_size, image_size)),
+            T.RandomResizedCrop((image_size[1], image_size[2])),
             T.Normalize(
                 mean=torch.tensor([0.485, 0.456, 0.406]),
                 std=torch.tensor([0.229, 0.224, 0.225])),
@@ -218,7 +218,7 @@ class BYOL(nn.Module):
         self.to(device)
 
         # send a mock image tensor to instantiate singleton parameters
-        self.forward(torch.randn(2, 3, image_size, image_size, device=device))
+        self.forward(torch.randn(2, image_size[0], image_size[1], image_size[2], device=device))
 
     @singleton('target_encoder')
     def _get_target_encoder(self):
